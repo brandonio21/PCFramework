@@ -1,6 +1,7 @@
 #!/bin/bash
 WGET_FLAGS="-q --progress=bar --show-progress"
-VERSION="1.05"
+VERSION="1.10"
+REMOTE_URL="https://github.com/brandonio21/PCFramework/tree/master"
 
 echo "University of California, San Diego"
 echo "Women In Computing"
@@ -11,7 +12,7 @@ echo "----------------------------------------------------"
 echo "Checking for updates..."
 `rm -rf update`
 `mkdir update`
-`wget -q -P update "https://dl.dropboxusercontent.com/u/398377/WICBPC/install.sh"`
+`wget -q -P update "${REMOTE_URL}/install.sh"`
 if [[ `diff install.sh update/install.sh` != "" ]]; then
 	printf "%s" "Updating... "
 	`mv update/install.sh installnew.sh`
@@ -42,14 +43,14 @@ printf "%s\n" "Creating directory structure..."
 
 
 printf "%s\n" "Downloading README files"
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Questions" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Questions/README.md"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/README.md"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Questions" "${REMOTE_URL}/Questions/README.md"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/README.md"`
 
 printf "%s\n" "Downloading useful scripts"
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/clean.sh"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/compare.sh"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/test.sh"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/verify.sh"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/clean.sh"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/compare.sh"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/test.sh"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/verify.sh"`
 printf "%s\n" "Adding information about problem count"
 `printf "#!/bin/bash\n%s\n" "NUMBER_OF_PROBLEMS=${numOfProblems}" | cat - "WICBPC${year}/Solutions/dev/compare.sh" > temp && mv temp "WICBPC${year}/Solutions/dev/compare.sh"`
 `printf "#!/bin/bash\n%s\n" "NUMBER_OF_PROBLEMS=${numOfProblems}" | cat - "WICBPC${year}/Solutions/dev/test.sh" > temp && mv temp "WICBPC${year}/Solutions/dev/test.sh"`
@@ -57,14 +58,14 @@ printf "%s\n" "Adding information about problem count"
 
 
 printf "%s\n" "Downloading example files..."
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/Templates" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/Templates/Problem1.java"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/tests/problem1_corner.in"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/tests/problem1_corner.out"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/tests/problem1_generated.in"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/tests/problem1_sample.in"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/tests/problem1_sample.out"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/Generators" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/Generators/Generator.java"`
-`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/Generators" "https://dl.dropboxusercontent.com/u/398377/WICBPC/Solutions/dev/Generators/Problem1Generator.java"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/Templates" "${REMOTE_URL}/Solutions/Templates/Problem1.java"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "${REMOTE_URL}/Solutions/dev/tests/problem1_corner.in"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "${REMOTE_URL}/Solutions/dev/tests/problem1_corner.out"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "${REMOTE_URL}/Solutions/dev/tests/problem1_generated.in"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "${REMOTE_URL}/Solutions/dev/tests/problem1_sample.in"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/tests" "${REMOTE_URL}/Solutions/dev/tests/problem1_sample.out"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/Generators" "${REMOTE_URL}/Solutions/dev/Generators/Generator.java"`
+`wget ${WGET_FLAGS} -P "WICBPC${year}/Solutions/dev/Generators" "${REMOTE_URL}/Solutions/dev/Generators/Problem1Generator.java"`
 
 
 printf "%s\n" "We will now create solution writer directories..."
