@@ -1,7 +1,7 @@
 #!/bin/bash
 WGET_FLAGS="-q --progress=bar --show-progress"
 VERSION="1.10"
-REMOTE_URL="https://github.com/brandonio21/PCFramework/tree/master"
+REMOTE_URL="https://raw.githubusercontent.com/brandonio21/PCFramework/master"
 
 echo "University of California, San Diego"
 echo "Women In Computing"
