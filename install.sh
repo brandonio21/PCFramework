@@ -4,9 +4,7 @@ VERSION="1.15"
 REMOTE_URL="https://raw.githubusercontent.com/brandonio21/PCFramework/master"
 COMPETITION_NAME="WICBPC"
 
-echo "University of California, San Diego"
-echo "Women In Computing"
-echo "Beginner's Programming Competition"
+echo "PCFramework for WiC @ UCSD"
 echo "Install Script Version: ${VERSION}"
 echo "----------------------------------------------------"
 
