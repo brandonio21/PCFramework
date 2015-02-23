@@ -40,7 +40,7 @@ clean.sh
 |   (Contains all of the official solutions that will be published after 
 |    competition to people who request it)
 |
----Tests
+---tests
 |   (Contains all input files that will be used during the competition)
 |
 ---Name
@@ -68,6 +68,32 @@ Would be the code to run the tests for Problem 1 written by Brandon.
 In order to test all scripts at once, use the `a` option, as in
 ```
 ./test.sh a Brandon
+```
+
+### Comparing ###
+Once individual testing is complete, you should want to comapre your output with
+the output of other solution writers. In order to do this, run the `compare.sh`
+script. If you recently made changes to your solution, you should first run the
+`clean.sh` script. The details are given below:
+
+To clear your directory and prepare it for comparing:
+```
+./clean.sh Brandon
+```
+
+To clear the directory of the person you're comparing against;
+```
+./clean.sh Dylan
+```
+
+To compare solution outputs for a specific problem:
+```
+./compare.sh Brandon Dylan 5
+```
+
+To compare solution outputs for all problems:
+```
+./compare.sh Brandon Dylan a
 ```
 
 Feel free to contribute to any part of the **Programming Competition** project.
