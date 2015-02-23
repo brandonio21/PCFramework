@@ -25,7 +25,9 @@ curl -O "https://raw.githubusercontent.com/brandonio21/PCFramework/master/instal
 ```
 
 This installer will download the necessary files and assist you in the creation
-of the directory structure.
+of the directory structure. This is also an auto-updating installer, so no
+need to worry about not having the latest version. Use the same script for all
+of your programming competitions!
 
 
 ## Workflow ##
@@ -47,7 +49,9 @@ be put in the `dev/tests` directory. The example files in the `dev/tests`
 directory show exactly how to do this. Then, a template file should be created 
 in the `Solutions/Templates` folder. This template file's job is to read the 
 cases from the case input file and call the competitor's function on the input,
-outputting the resulting data to stdout. After the template file is created,
+outputting the resulting data to stdout. If the template file example is 
+followed, the template files allow for comments within the cases as well using
+the `//` character combination. After the template file is created,
 a Generator should be written in the `Solutions/dev/Generators` directory. 
 These generators should create a large number of random cases to catch possible
 bugs in the competitor's programs. An example is provided for reference.
