@@ -62,15 +62,14 @@ while [ ! -z "$2" ]; do
 		fi
 		exit 1
 	else
-		tput setaf 2; printf "%s\n" "Soltuions Match."
+		tput setaf 2; printf "%s\n" "Solutions Match. (${1} and ${2})"
 		tput sgr0
-		exit 0
 	fi
 
 
 
 shift
 done
-
-
-
+		tput setaf 2; printf "%s\n" "Problem ${problem}: All Solutions Match."
+		tput sgr0
+exit 0
