@@ -19,11 +19,11 @@ while [ ! -z "$2" ]; do
 	if [[ ${problem} == "a" ]]; then
 		problem=1
 		while [ ${problem} -lt ${NUMBER_OF_PROBLEMS} ]; do
+			printf "%s\n" "Testing Problem ${problem}..."
 			${0} ${problem} ${1} ${2}
 			let "problem++"
 		done
 	fi
-	printf "%s\n" "Testing Problem ${problem}..."
 	if [ ! -e "${1}${OUTPUT_DIR}/problem${problem}.out" ]; then
 		# The first user doesn't have output. Delegate to test script.
 		printf "%s\n" "${1} doesn't have output. Generating..."
@@ -62,7 +62,7 @@ while [ ! -z "$2" ]; do
 		fi
 		exit 1
 	else
-		tput setaf 2; printf "%s\n" "Solutions Match. (${1} and ${2})"
+		tput setaf 2; printf "%s\n" " -- Problem ${problem} Solutions Match. (${1} and ${2})"
 		tput sgr0
 	fi
 
