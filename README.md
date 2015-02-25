@@ -13,6 +13,18 @@ This framework is meant to create programming competitions where contestants
 will be programming solutions in **JAVA**.
 
 ## Installation Instructions ##
+
+### Git Installation ###
+If you would like to use git to install and manage your programming competition
+resources (this means you can easily update your scripts!), you can install
+PCFramework by cloning this repo.
+```
+git clone https://github.com/brandonio21/PCFramework.git
+```
+If you are using this method, then `install.sh` is completely useless to you.
+Feel free to remove it as to not cause confusion.
+
+### Non-Git Installation ###
 Basically, just download and run the install script.  
 Using wget
 

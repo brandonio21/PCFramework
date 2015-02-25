@@ -79,5 +79,11 @@ while [ "$name" != "0" ]; do
 	read name
 done
 
+printf "%s: " "Would you like to download example packages? (y/n)"
+read answer
+if [ "$answer" == "y" ]; then
+	`mkdir -p "${COMPETITION_NAME}-${year}/Examples"`
+fi
+
 printf "%s\n" "Done! Best of luck."
 
