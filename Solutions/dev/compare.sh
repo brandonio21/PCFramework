@@ -1,4 +1,9 @@
 OUTPUT_DIR="/output"
+TESTS_DIR="tests"
+FINAL_IO_DIR="../FinalIO"
+GENERATED_EXTENSION="_generated"
+OUTPUT_ENDING=".out"
+OUTPUT_DIR="/output"
 
 # Script used to compare the outputs of two people given their names and the 
 # problem number.
@@ -20,7 +25,7 @@ while [ ! -z "$2" ]; do
 		problem=1
 		while [ ${problem} -lt ${NUMBER_OF_PROBLEMS} ]; do
 			printf "%s\n" "Testing Problem ${problem}..."
-			${0} ${problem} ${1} ${2}
+			${0} ${problem} ${@}
 			let "problem++"
 		done
 	fi

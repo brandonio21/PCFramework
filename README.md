@@ -9,6 +9,9 @@ This Framework was originally created for University of California, San Diego's
 Women in Computing club as they held their quarterly Beginner's Programming
 Competition.
 
+This framework is meant to create programming competitions where contestants
+will be programming solutions in **JAVA**.
+
 ## Installation Instructions ##
 Basically, just download and run the install script.  
 Using wget
