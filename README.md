@@ -44,6 +44,10 @@ of the directory structure. This is also an auto-updating installer, so no
 need to worry about not having the latest version. Use the same script for all
 of your programming competitions!
 
+In the future, this installer will be useful because you will be able to
+specify a language for your competition, where scripts will then be provided
+that are suited for your specific language.
+
 
 ## Workflow ##
 The first part of the workflow is getting the directory structure on everyones'
@@ -81,6 +85,11 @@ several solution writers. `clean.sh` is used for cleaning up residue from
 _test.sh_ runs, and `verify.sh` is used for making sure all _FinalSolutions_
 are indeed final.
 
+When you're finishing up you're solutions, we can use the `compare.sh` script
+to put all the IO files in the FinalIO directory for easy access. This can
+be done by using the `compare.sh` script in conjunction with the `a` parameter
+and by providing all solutions writers as the following arguments.
+
 ## Script Usage ##
 The included shell scripts, which are very useful, can be called using the 
 following syntax. Keep in mind they must be called from the `Solutions/dev` 
@@ -91,7 +100,7 @@ directory.
 ```
 
 ```
-./compare.sh <name1> <name2> <problemNumber>
+./compare.sh <problemNumber> <name1> <name2> <name3> ...
 ```
 
 ```
