@@ -4,6 +4,11 @@ CORNER_CASES_EXTENSION="_corner"
 GENERATED_EXTENSION="_generated"
 INPUT_ENDING=".in"
 OUTPUT_ENDING=".out"
+COMPILE_COMMAND="javac"
+COMPILE_FLAGS="-cp"
+RUN_COMMAND="java"
+SOURCE_EXTENSION="java"
+COMPILED_EXTENSION="class"
 
 # A testing script that puts everything in the right directories
 # Specialized for Wi15 - Updated 1/24/2015
@@ -27,7 +32,7 @@ then
 fi
 
 # Declare variables regarding where the files are
-sourceFile="Problem${1}.java"
+sourceFile="Problem${1}.${SOURCE_EXTENSION}"
 classFile="Problem${1}"
 sampleInput="${TESTS_DIR}/problem${1}${SAMPLE_EXTENSION}${INPUT_ENDING}"
 sampleOutput="${TESTS_DIR}/problem${1}${SAMPLE_EXTENSION}${OUTPUT_ENDING}"
@@ -57,8 +62,8 @@ fi
 # Test the user's solution against the sample IO and put the output
 # in their directory
 printf "%s\n" "Testing problem against sample IO"
-javac "${2}/${sourceFile}"
-cat "${sampleInput}" | java -cp ${2} ${classFile} > ${2}/myOutput
+$COMPILE_COMMAND "${2}/${sourceFile}"
+cat "${sampleInput}" | $RUN_COMMAND $COMPILE_FLAGS ${2} ${classFile} > ${2}/myOutput
 cat "${sampleOutput}" > ${2}/sampleOutput
 sampleDiff=`diff ${2}/myOutput ${2}/sampleOutput`
 if [[ ${sampleDiff} != "" ]]
@@ -70,7 +75,7 @@ then
 		vimdiff ${2}/myOutput ${2}/sampleOutput
 	fi
 	rm ${2}/myOutput ${2}/sampleOutput
-	rm "${2}/${classFile}.class"
+	rm "${2}/${classFile}.${COMPILED_EXTENSION}"
 	exit 1
 else
 	tput setaf 2; printf "%s\n" "PASSED SAMPLE IO"
@@ -81,8 +86,8 @@ fi
 # Test the user's solution against the verified corner cases and put the output
 # in their directory
 printf "%s\n" "Testing problem against corner cases"
-javac "${2}/${sourceFile}"
-cat "${cornerInput}" | java -cp ${2} ${classFile} > ${2}/myOutput
+$COMPILE_COMMAND "${2}/${sourceFile}"
+cat "${cornerInput}" | $RUN_COMMAND $COMPILE_FLAGS ${2} ${classFile} > ${2}/myOutput
 cat "${cornerOutput}" > ${2}/cornerOutput
 cornerDiff=`diff ${2}/myOutput ${2}/cornerOutput`
 if [[ ${cornerDiff} != "" ]]
@@ -94,7 +99,7 @@ then
 		vimdiff ${2}/myOutput ${2}/cornerOutput
 	fi
 	rm ${2}/myOutput ${2}/cornerOutput
-	rm "${2}/${classFile}.class"
+	rm "${2}/${classFile}.${COMPILED_EXTENSION}"
 	exit 1
 else
 	tput setaf 2; printf "%s\n" "PASSED CORNER-CASE IO"
@@ -114,7 +119,7 @@ if [ ! -e "${generatedInput}" ]; then
 	cp "${sampleInput}" "${generatedInput}"
 	cat "${cornerInput}" >> "${generatedInput}"
 fi
-(cat "${generatedInput}" | java -cp ${2} ${classFile}) > "${userOutput}"
+(cat "${generatedInput}" | $RUN_COMMAND $COMPILE_FLAGS ${2} ${classFile}) > "${userOutput}"
 rm "${2}/${classFile}.class"
 printf "%s\n" "Done."
 
