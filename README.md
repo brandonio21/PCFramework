@@ -24,7 +24,7 @@ git clone https://github.com/brandonio21/PCFramework.git
 If you are using this method, then `install.sh` is completely useless to you.
 Feel free to remove it as to not cause confusion.
 
-### Non-Git Installation ###
+### Non-Git Installation (Recommended)
 Basically, just download and run the install script.  
 Using wget
 
