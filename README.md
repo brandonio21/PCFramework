@@ -30,12 +30,14 @@ Using wget
 
 ```
 wget "https://raw.githubusercontent.com/brandonio21/PCFramework/master/install.sh"
+chmod +x install.sh
 ./install.sh
 ```
 
 Using curl:
 ```
 curl -O "https://raw.githubusercontent.com/brandonio21/PCFramework/master/install.sh"
+chmod +x install.sh
 ./install.sh
 ```
 
