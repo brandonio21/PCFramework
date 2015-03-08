@@ -83,6 +83,8 @@ printf "%s: " "Would you like to download example packages? (y/n)"
 read answer
 if [ "$answer" == "y" ]; then
 	`mkdir -p "${COMPETITION_NAME}-${year}/Examples"`
+	`wget ${WGET_FLAGS} -P "${COMPETITION_NAME}-${year}/Examples/" "${REMOTE_URL}/Examples/WiC-BPC-Wi15.tar.gz"`
+	`tar -xvf "${COMPETITION_NAME}-${year}/Examples/WiC-BPC-Wi15.tar.gz"`
 fi
 
 printf "%s\n" "Done! Best of luck."
