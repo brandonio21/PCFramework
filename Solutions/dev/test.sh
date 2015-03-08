@@ -5,7 +5,8 @@ GENERATED_EXTENSION="_generated"
 INPUT_ENDING=".in"
 OUTPUT_ENDING=".out"
 COMPILE_COMMAND="javac"
-COMPILE_FLAGS="-cp"
+RUN_FLAGS="-cp"
+COMPILE_FLAGS=""
 RUN_COMMAND="java"
 SOURCE_EXTENSION="java"
 COMPILED_EXTENSION="class"
@@ -62,8 +63,8 @@ fi
 # Test the user's solution against the sample IO and put the output
 # in their directory
 printf "%s\n" "Testing problem against sample IO"
-$COMPILE_COMMAND "${2}/${sourceFile}"
-cat "${sampleInput}" | $RUN_COMMAND $COMPILE_FLAGS ${2} ${classFile} > ${2}/myOutput
+$COMPILE_COMMAND $COMPILE_FLAGS "${2}/${sourceFile}"
+cat "${sampleInput}" | $RUN_COMMAND $RUN_FLAGS ${2} ${classFile} > ${2}/myOutput
 cat "${sampleOutput}" > ${2}/sampleOutput
 sampleDiff=`diff ${2}/myOutput ${2}/sampleOutput`
 if [[ ${sampleDiff} != "" ]]
@@ -86,8 +87,8 @@ fi
 # Test the user's solution against the verified corner cases and put the output
 # in their directory
 printf "%s\n" "Testing problem against corner cases"
-$COMPILE_COMMAND "${2}/${sourceFile}"
-cat "${cornerInput}" | $RUN_COMMAND $COMPILE_FLAGS ${2} ${classFile} > ${2}/myOutput
+$COMPILE_COMMAND $COMPILE_FLAGS "${2}/${sourceFile}"
+cat "${cornerInput}" | $RUN_COMMAND $RUN_FLAGS ${2} ${classFile} > ${2}/myOutput
 cat "${cornerOutput}" > ${2}/cornerOutput
 cornerDiff=`diff ${2}/myOutput ${2}/cornerOutput`
 if [[ ${cornerDiff} != "" ]]
@@ -119,7 +120,7 @@ if [ ! -e "${generatedInput}" ]; then
 	cp "${sampleInput}" "${generatedInput}"
 	cat "${cornerInput}" >> "${generatedInput}"
 fi
-(cat "${generatedInput}" | $RUN_COMMAND $COMPILE_FLAGS ${2} ${classFile}) > "${userOutput}"
+(cat "${generatedInput}" | $RUN_COMMAND $RUN_FLAGS ${2} ${classFile}) > "${userOutput}"
 rm "${2}/${classFile}.class"
 printf "%s\n" "Done."
 
