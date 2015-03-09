@@ -1,4 +1,3 @@
-OUTPUT_DIR="/output"
 TESTS_DIR="tests"
 FINAL_IO_DIR="../FinalIO"
 GENERATED_EXTENSION="_generated"
@@ -75,6 +74,10 @@ while [ ! -z "$2" ]; do
 
 shift
 done
-		tput setaf 2; printf "%s\n" "Problem ${problem}: All Solutions Match."
+		tput setaf 2; printf "%s\n" "Problem ${problem}: All Solutions Match -- Populating FinalIO dir."
 		tput sgr0
+		# Since all solutions match move the correct things to the 
+		# appropriate directories
+		cp ${TESTS_DIR}/problem${problem}_* "${FINAL_IO_DIR}"
+		cp "${1}${OUTPUT_DIR}/problem${problem}.out" "${FINAL_IO_DIR}/problem${problem}${GENERATED_EXTENSION}${OUTPUT_ENDING}"
 exit 0
