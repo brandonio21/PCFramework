@@ -133,14 +133,6 @@ Note that the lines do the following:
 
 
 #### run.sh ####
-3) The `echo` statement is optional.
-
-
-#### run.sh ####
-3) The `echo` statement is optional.
-
-
-#### run.sh ####
 Add a new `else if` block containing your file extension. Say, for instance,
 you wanted to allow your contestants to write code in python. (Note that since
 C and C++ files compile in the same way, C run support already exists).
@@ -151,7 +143,7 @@ else if [ "${fileExtension}" == "py" ]; then
 fi
 ```
 Note that the lines do the following:  
-1) The `else if` statement checks the file's file extension and compares it.
+1) The `else if` statement checks the file's file extension and compares it.  
 2) The `python` statement runs the file with the full path specified  
 3) The `exit` line prevents any other languages being executed.
 
