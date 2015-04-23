@@ -52,6 +52,9 @@ printf "%s\n" "Downloading useful scripts"
 `wget ${WGET_FLAGS} -P "${COMPETITION_NAME}-${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/compare.sh"`
 `wget ${WGET_FLAGS} -P "${COMPETITION_NAME}-${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/test.sh"`
 `wget ${WGET_FLAGS} -P "${COMPETITION_NAME}-${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/verify.sh"`
+`wget ${WGET_FLAGS} -P "${COMPETITION_NAME}-${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/compile.sh"`
+`wget ${WGET_FLAGS} -P "${COMPETITION_NAME}-${year}/Solutions/dev" "${REMOTE_URL}/Solutions/dev/run.sh"`
+
 printf "%s\n" "Adding information about problem count"
 `printf "#!/bin/bash\n%s\n" "NUMBER_OF_PROBLEMS=${numOfProblems}" | cat - "${COMPETITION_NAME}-${year}/Solutions/dev/compare.sh" > temp && mv temp "${COMPETITION_NAME}-${year}/Solutions/dev/compare.sh"`
 `printf "#!/bin/bash\n%s\n" "NUMBER_OF_PROBLEMS=${numOfProblems}" | cat - "${COMPETITION_NAME}-${year}/Solutions/dev/test.sh" > temp && mv temp "${COMPETITION_NAME}-${year}/Solutions/dev/test.sh"`
