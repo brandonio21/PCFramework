@@ -9,9 +9,6 @@ This Framework was originally created for University of California, San Diego's
 Women in Computing club as they held their quarterly Beginner's Programming
 Competition.
 
-This framework is meant to create programming competitions where contestants
-will be programming solutions in **JAVA**.
-
 ## Installation Instructions ##
 
 ### Git Installation ###
@@ -111,3 +108,51 @@ directory.
 
 Keep in mind that all `problemNumber` arguments can be replaced with `a` to
 test all problems.
+
+
+## Adding your own languages ##
+By default, PCFramework supports contestants using Java or C++ to write their
+solutions. As the project involves, I'm sure there will be more languages
+included in the default package. If you would like to add your own language,
+simply add them to the `run.sh` and `compile.sh` files in the following format.
+
+#### compile.sh ####
+Add a new `else if` block containing your file extension. Say, for instance,
+you wanted to allow your contestants to write code in C. You would add:
+``` bash
+else if [ "${fileExtension}" == "c" ]; then
+    gcc -o $(echo $f | sed "s/${fileExtension}/o/") $f
+    echo $(echo $f | sed "s/$PfileExtension}/o/")
+fi
+```
+Note that the lines do the following:  
+1) The `else if` statement checks the file's file extension and compares it.  
+2) The `gcc` statement compiles the file into the .o file, which is specified
+   by the `sed` command, which replaces the _.c_ extension with _.o_.  
+3) The `echo` statement is optional.
+
+
+#### run.sh ####
+3) The `echo` statement is optional.
+
+
+#### run.sh ####
+3) The `echo` statement is optional.
+
+
+#### run.sh ####
+Add a new `else if` block containing your file extension. Say, for instance,
+you wanted to allow your contestants to write code in python. (Note that since
+C and C++ files compile in the same way, C run support already exists).
+``` bash
+else if [ "${fileExtension}" == "py" ]; then
+    python "$directory/$fileName"
+    exit 0
+fi
+```
+Note that the lines do the following:  
+1) The `else if` statement checks the file's file extension and compares it.
+2) The `python` statement runs the file with the full path specified  
+3) The `exit` line prevents any other languages being executed.
+
+
