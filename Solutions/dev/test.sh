@@ -1,15 +1,12 @@
+#!/bin/bash
 TESTS_DIR="tests"
 SAMPLE_EXTENSION="_sample"
 CORNER_CASES_EXTENSION="_corner"
 GENERATED_EXTENSION="_generated"
 INPUT_ENDING=".in"
 OUTPUT_ENDING=".out"
-COMPILE_COMMAND="javac"
-RUN_FLAGS="-cp"
-COMPILE_FLAGS=""
-RUN_COMMAND="java"
-SOURCE_EXTENSION="java"
-COMPILED_EXTENSION="class"
+COMPILE_COMMAND="./compile.sh"
+RUN_COMMAND="./run.sh"
 
 # A testing script that puts everything in the right directories
 # Specialized for Wi15 - Updated 1/24/2015
@@ -33,7 +30,7 @@ then
 fi
 
 # Declare variables regarding where the files are
-sourceFile="Problem${1}.${SOURCE_EXTENSION}"
+sourceFile="Problem${1}"
 classFile="Problem${1}"
 sampleInput="${TESTS_DIR}/problem${1}${SAMPLE_EXTENSION}${INPUT_ENDING}"
 sampleOutput="${TESTS_DIR}/problem${1}${SAMPLE_EXTENSION}${OUTPUT_ENDING}"
@@ -53,18 +50,24 @@ if [[ "$1" = "a" ]]; then
 fi
 
 # Check to see if the user has the source code for the specified problem.
-if [ ! -e "${2}/${sourceFile}" ]; then
-	printf "%s\n" "${2} does not have problem ${1}"
-	exit 1
-else
-	printf "%s\n" "Testing ${2}'s problem ${1}"
-fi
+# Using janky method
+for f in ${2}/${sourceFile}*; do
+	if [ ! -e "$f" ]; then 
+		echo "${2} does not have problem ${1}"
+		exit 1
+	else
+		echo "Testing ${2}'s problem ${1}"
+	fi
+	break
+done
 
 # Test the user's solution against the sample IO and put the output
 # in their directory
 printf "%s\n" "Testing problem against sample IO"
-$COMPILE_COMMAND $COMPILE_FLAGS "${2}/${sourceFile}"
-cat "${sampleInput}" | $RUN_COMMAND $RUN_FLAGS ${2} ${classFile} > ${2}/myOutput
+
+# Let's check what language the code is in first
+$COMPILE_COMMAND ${2} ${sourceFile}
+cat "${sampleInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
 cat "${sampleOutput}" > ${2}/sampleOutput
 sampleDiff=`diff ${2}/myOutput ${2}/sampleOutput`
 if [[ ${sampleDiff} != "" ]]
@@ -76,7 +79,6 @@ then
 		vimdiff ${2}/myOutput ${2}/sampleOutput
 	fi
 	rm ${2}/myOutput ${2}/sampleOutput
-	rm "${2}/${classFile}.${COMPILED_EXTENSION}"
 	exit 1
 else
 	tput setaf 2; printf "%s\n" "PASSED SAMPLE IO"
@@ -87,8 +89,8 @@ fi
 # Test the user's solution against the verified corner cases and put the output
 # in their directory
 printf "%s\n" "Testing problem against corner cases"
-$COMPILE_COMMAND $COMPILE_FLAGS "${2}/${sourceFile}"
-cat "${cornerInput}" | $RUN_COMMAND $RUN_FLAGS ${2} ${classFile} > ${2}/myOutput
+$COMPILE_COMMAND ${2} ${sourceFile}
+cat "${cornerInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
 cat "${cornerOutput}" > ${2}/cornerOutput
 cornerDiff=`diff ${2}/myOutput ${2}/cornerOutput`
 if [[ ${cornerDiff} != "" ]]
@@ -100,7 +102,6 @@ then
 		vimdiff ${2}/myOutput ${2}/cornerOutput
 	fi
 	rm ${2}/myOutput ${2}/cornerOutput
-	rm "${2}/${classFile}.${COMPILED_EXTENSION}"
 	exit 1
 else
 	tput setaf 2; printf "%s\n" "PASSED CORNER-CASE IO"
@@ -120,7 +121,7 @@ if [ ! -e "${generatedInput}" ]; then
 	cp "${sampleInput}" "${generatedInput}"
 	cat "${cornerInput}" >> "${generatedInput}"
 fi
-(cat "${generatedInput}" | $RUN_COMMAND $RUN_FLAGS ${2} ${classFile}) > "${userOutput}"
+(cat "${generatedInput}" | $RUN_COMMAND ${2} ${sourceFile}) > "${userOutput}"
 rm "${2}/${classFile}.class"
 printf "%s\n" "Done."
 

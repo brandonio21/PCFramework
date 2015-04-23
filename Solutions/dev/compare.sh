@@ -1,3 +1,4 @@
+#!/bin/bash
 TESTS_DIR="tests"
 FINAL_IO_DIR="../FinalIO"
 GENERATED_EXTENSION="_generated"
