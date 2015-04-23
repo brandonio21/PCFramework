@@ -9,9 +9,11 @@ for f in ${directory}/*; do
 
 	if [ "${fileExtension}" == "class" ]; then
 		java -cp $directory $fileNameWithoutExt
+		exit 0
 
 		else if [ "${fileExtension}" == "o" ]; then
 			$f
+			exit 0
 		fi
 
 	fi
