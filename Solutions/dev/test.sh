@@ -1,4 +1,5 @@
 #!/bin/bash
+NUMBER_OF_PROBLEMS=15
 TESTS_DIR="tests"
 SAMPLE_EXTENSION="_sample"
 CORNER_CASES_EXTENSION="_corner"
@@ -122,6 +123,5 @@ if [ ! -e "${generatedInput}" ]; then
 	cat "${cornerInput}" >> "${generatedInput}"
 fi
 (cat "${generatedInput}" | $RUN_COMMAND ${2} ${sourceFile}) > "${userOutput}"
-rm "${2}/${classFile}.class"
 printf "%s\n" "Done."
 
