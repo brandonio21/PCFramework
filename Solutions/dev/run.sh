@@ -1,7 +1,7 @@
 #!/bin/bash
 directory=$1
 fileNameWithoutExt=$2
-for f in ${directory}/*; do
+for f in ${directory}/${fileNameWithoutExt}.*; do
 	fileExtension=$(echo $f | sed "s/.*\.//")
 	directory=$(echo $f | sed "s/\/.*//")
 	fileName=$(echo $f | sed "s/.*\///")

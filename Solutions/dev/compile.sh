@@ -2,14 +2,14 @@
 directory=$1
 fileNameWithoutExt=$2
 
-for f in ${directory}/*; do
+for f in ${directory}/${fileNameWithoutExt}.*; do
 	fileExtension=$(echo $f | sed "s/.*\.//")
 	if [ "${fileExtension}" == "java" ]; then
 		javac $f
 		echo $(echo $f | sed "s/${fileExtension}/class/")
 
 		else if [ "${fileExtension}" == "cpp" ]; then
-			g++ -o $(echo $f | sed "s/${fileExtension}/o/") $f
+			g++ -std=c++11 -o $(echo $f | sed "s/${fileExtension}/o/") $f
 			echo $(echo $f | sed "s/${fileExtension}/o/")
 		fi
 	fi
