@@ -43,7 +43,6 @@ userOutput="${2}/output/problem${1}${OUTPUT_ENDING}"
 # If the user used the "userall" option, recursively call the program
 if [[ "$2" = "a" ]]; then
 	for file in ${PWD}/$WRITERS_DIR/*; do
-		echo $file
 		$0 $1 $(echo $file | sed "s/.*\///")
 	done
 	exit 0
