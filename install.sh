@@ -36,6 +36,7 @@ read numOfProblems
 printf "%s\n" "Creating directory structure..."
 `mkdir -p "${COMPETITION_NAME}-${year}/Questions"`
 `mkdir -p "${COMPETITION_NAME}-${year}/Solutions/dev"`
+`mkdir -p "${COMPETITION_NAME}-${year}/Solutions/dev/.writers"`
 `mkdir -p "${COMPETITION_NAME}-${year}/Solutions/dev/Generators"`
 `mkdir -p "${COMPETITION_NAME}-${year}/Solutions/dev/tests"`
 `mkdir -p "${COMPETITION_NAME}-${year}/Solutions/FinalIO"`
@@ -78,6 +79,7 @@ printf "%s: " "Enter the name of a solution writer (0 to quit)"
 read name
 while [ "$name" != "0" ]; do
 	`mkdir -p "${COMPETITION_NAME}-${year}/Solutions/dev/${name}"`
+	`ln -s "${COMPETITION_NAME}-${year}/Solutions/dev/${name}" "${COMPETITION_NAME}-${year}/Solutions/dev/.writers/${name}"`
 	printf "%s: " "Enter the name of a solution writer (0 to quit)"
 	read name
 done
