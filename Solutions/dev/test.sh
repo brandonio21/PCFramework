@@ -51,7 +51,7 @@ fi
 # If the user used the "all" option, recursively call the program
 if [[ "$1" = "a" ]]; then
 	index=1
-	while [ $index -lt ${NUMBER_OF_PROBLEMS} ]; do
+	while [ $index -le ${NUMBER_OF_PROBLEMS} ]; do
 		$0 $index $2
 		let "index++"
 	done
@@ -62,7 +62,7 @@ fi
 
 # Check to see if the user has the source code for the specified problem.
 # Using janky method
-for f in ${2}/${sourceFile}*; do
+for f in ${2}/${sourceFile}.*; do
 	if [ ! -f "$f" ]; then 
 		echo "${2} does not have problem ${1}"
 		exit 1
