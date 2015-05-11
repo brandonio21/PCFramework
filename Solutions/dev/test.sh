@@ -9,6 +9,9 @@ COMPILE_COMMAND="./compile.sh"
 RUN_COMMAND="./run.sh"
 WRITERS_DIR=".writers"
 
+SKIP_SAMPLE_IO=false
+SKIP_CORNER_IO=false
+
 # A testing script that puts everything in the right directories
 # Specialized for Wi15 - Updated 1/24/2015
 # Brandon Milton
@@ -28,6 +31,24 @@ then
 	printf "%s\n" "Syntax: ${0} <problemNumber> <userDirectory>"
 	printf "\t%s\n" "Example: ${0} 1 Brandon"
 	exit 1
+fi
+
+if [ ! -z "$3" ]; then
+	if [[ "$3" = "-skipsample" ]]; then
+		SKIP_SAMPLE_IO=true
+	fi
+	if [[ "$3" = "-skipcorner" ]]; then
+		SKIP_CORNER_IO=true
+	fi
+fi
+
+if [ ! -z "$4" ]; then
+	if [[ "$4" = "-skipsample" ]]; then
+		SKIP_SAMPLE_IO=true
+	fi
+	if [[ "$4" = "-skipcorner" ]]; then
+		SKIP_CORNER_IO=true
+	fi
 fi
 
 # Declare variables regarding where the files are
@@ -75,47 +96,53 @@ done
 # printf "%s\n" "Testing problem against sample IO"
 
 # Let's check what language the code is in first
-$COMPILE_COMMAND ${2} ${sourceFile}
-cat "${sampleInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
-cat "${sampleOutput}" > ${2}/sampleOutput
-sampleDiff=`diff ${2}/myOutput ${2}/sampleOutput`
-if [[ ${sampleDiff} != "" ]]
+if [ $SKIP_SAMPLE_IO = false ]
 then
-	tput setaf 1; printf "%s\n" "$2: PROBLEM $1 FAILED TO PASS SAMPLE IO! Would you like to see the vimdiff of output? (y/n)"
-	tput sgr0
-	read answer
-	if [[ ${answer} == "y" ]]; then
-		vimdiff ${2}/myOutput ${2}/sampleOutput
+	$COMPILE_COMMAND ${2} ${sourceFile}
+	cat "${sampleInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
+	cat "${sampleOutput}" > ${2}/sampleOutput
+	sampleDiff=`diff ${2}/myOutput ${2}/sampleOutput`
+	if [[ ${sampleDiff} != "" ]]
+	then
+		tput setaf 1; printf "%s\n" "$2: PROBLEM $1 FAILED TO PASS SAMPLE IO! Would you like to see the vimdiff of output? (y/n)"
+		tput sgr0
+		read answer
+		if [[ ${answer} == "y" ]]; then
+			vimdiff ${2}/myOutput ${2}/sampleOutput
+		fi
+		rm ${2}/myOutput ${2}/sampleOutput
+		exit 1
+	else
+		tput setaf 2; printf "%s\n" "$2: PROBLEM $1 PASSED SAMPLE IO"
+		tput sgr0
+		rm ${2}/myOutput ${2}/sampleOutput
 	fi
-	rm ${2}/myOutput ${2}/sampleOutput
-	exit 1
-else
-	tput setaf 2; printf "%s\n" "$2: PROBLEM $1 PASSED SAMPLE IO"
-	tput sgr0
-	rm ${2}/myOutput ${2}/sampleOutput
 fi
 
 # Test the user's solution against the verified corner cases and put the output
 # in their directory
 # printf "%s\n" "Testing problem against corner cases"
-$COMPILE_COMMAND ${2} ${sourceFile}
-cat "${cornerInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
-cat "${cornerOutput}" > ${2}/cornerOutput
-cornerDiff=`diff ${2}/myOutput ${2}/cornerOutput`
-if [[ ${cornerDiff} != "" ]]
+if [ $SKIP_CORNER_IO = false ]
 then
-	tput setaf 1; printf "%s\n" "$2: PROBLEM $1 FAILED TO PASS CORNER-CASE IO! Would you like to see the vimdiff of output (y/n)"
-	tput sgr0
-	read answer
-	if [[ ${answer} == "y" ]]; then
-		vimdiff ${2}/myOutput ${2}/cornerOutput
+	$COMPILE_COMMAND ${2} ${sourceFile}
+	cat "${cornerInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
+	cat "${cornerOutput}" > ${2}/cornerOutput
+	cornerDiff=`diff ${2}/myOutput ${2}/cornerOutput`
+	if [[ ${cornerDiff} != "" ]]
+	then
+		tput setaf 1; printf "%s\n" "$2: PROBLEM $1 FAILED TO PASS CORNER-CASE IO! Would you like to see the vimdiff of output (y/n)"
+		tput sgr0
+		read answer
+		if [[ ${answer} == "y" ]]; then
+			vimdiff ${2}/myOutput ${2}/cornerOutput
+		fi
+		rm ${2}/myOutput ${2}/cornerOutput
+		exit 1
+	else
+		tput setaf 2; printf "%s\n" "$2: PROBLEM $1 PASSED CORNER-CASE IO"
+		tput sgr0
+		rm ${2}/myOutput ${2}/cornerOutput
 	fi
-	rm ${2}/myOutput ${2}/cornerOutput
-	exit 1
-else
-	tput setaf 2; printf "%s\n" "$2: PROBLEM $1 PASSED CORNER-CASE IO"
-	tput sgr0
-	rm ${2}/myOutput ${2}/cornerOutput
 fi
 
 # Finally, test the user's solution against generated output and put the output in 
