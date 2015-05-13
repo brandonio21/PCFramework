@@ -38,6 +38,15 @@ public class Generator
     catch (IOException e) {}
   }
 
+  public void write(char c)
+  {
+    try {
+      writer.write(c);
+    }
+    catch (IOException e) {}
+
+  }
+
   public void finish()
   {
     try {
