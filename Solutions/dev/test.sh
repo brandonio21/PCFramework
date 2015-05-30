@@ -64,28 +64,33 @@ userOutput="${2}/output/problem${1}${OUTPUT_ENDING}"
 # If the user used the "userall" option, recursively call the program
 if [[ "$2" = "a" ]]; then
 	for file in ${PWD}/$WRITERS_DIR/*; do
-		$0 $1 $(echo $file | sed "s/.*\///")
+		$0 $1 $(echo $file | sed "s/.*\///") $3 $4
 	done
 	exit 0
 fi
+
 
 # If the user used the "all" option, recursively call the program
 if [[ "$1" = "a" ]]; then
 	index=1
 	while [ $index -le ${NUMBER_OF_PROBLEMS} ]; do
-		$0 $index $2
+		$0 $index $2 $3 $4
 		let "index++"
 	done
 	exit 0
 fi
 
+userDirectory=$2
+if [[ "$2" = "t" ]]; then
+	userDirectory="../Templates"
+fi
 
 
 # Check to see if the user has the source code for the specified problem.
 # Using janky method
-for f in ${2}/${sourceFile}.*; do
+for f in ${userDirectory}/${sourceFile}.*; do
 	if [ ! -f "$f" ]; then 
-		echo "${2} does not have problem ${1}"
+		echo "${userDirectory} does not have problem ${1}"
 		exit 1
 	fi
 	break
@@ -96,60 +101,60 @@ done
 # printf "%s\n" "Testing problem against sample IO"
 
 # Let's check what language the code is in first
-if [ $SKIP_SAMPLE_IO = false ]
+if [ $SKIP_SAMPLE_IO = false ];
 then
-	$COMPILE_COMMAND ${2} ${sourceFile}
-	cat "${sampleInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
-	cat "${sampleOutput}" > ${2}/sampleOutput
-	sampleDiff=`diff ${2}/myOutput ${2}/sampleOutput`
+	$COMPILE_COMMAND ${userDirectory} ${sourceFile}
+	cat "${sampleInput}" | $RUN_COMMAND ${userDirectory} ${sourceFile} > ${userDirectory}/myOutput
+	cat "${sampleOutput}" > ${userDirectory}/sampleOutput
+	sampleDiff=`diff ${userDirectory}/myOutput ${userDirectory}/sampleOutput`
 	if [[ ${sampleDiff} != "" ]]
 	then
-		tput setaf 1; printf "%s\n" "$2: PROBLEM $1 FAILED TO PASS SAMPLE IO! Would you like to see the vimdiff of output? (y/n)"
+		tput setaf 1; printf "%s\n" "$userDirectory: PROBLEM $1 FAILED TO PASS SAMPLE IO! Would you like to see the vimdiff of output? (y/n)"
 		tput sgr0
 		read answer
 		if [[ ${answer} == "y" ]]; then
-			vimdiff ${2}/myOutput ${2}/sampleOutput
+			vimdiff ${userDirectory}/myOutput ${userDirectory}/sampleOutput
 		fi
-		rm ${2}/myOutput ${2}/sampleOutput
+		rm ${userDirectory}/myOutput ${userDirectory}/sampleOutput
 		exit 1
 	else
-		tput setaf 2; printf "%s\n" "$2: PROBLEM $1 PASSED SAMPLE IO"
+		tput setaf 2; printf "%s\n" "$userDirectory: PROBLEM $1 PASSED SAMPLE IO"
 		tput sgr0
-		rm ${2}/myOutput ${2}/sampleOutput
+		rm ${userDirectory}/myOutput ${userDirectory}/sampleOutput
 	fi
 fi
 
 # Test the user's solution against the verified corner cases and put the output
 # in their directory
 # printf "%s\n" "Testing problem against corner cases"
-if [ $SKIP_CORNER_IO = false ]
+if [ $SKIP_CORNER_IO = false ];
 then
-	$COMPILE_COMMAND ${2} ${sourceFile}
-	cat "${cornerInput}" | $RUN_COMMAND ${2} ${sourceFile} > ${2}/myOutput
-	cat "${cornerOutput}" > ${2}/cornerOutput
-	cornerDiff=`diff ${2}/myOutput ${2}/cornerOutput`
+	$COMPILE_COMMAND ${userDirectory} ${sourceFile}
+	cat "${cornerInput}" | $RUN_COMMAND ${userDirectory} ${sourceFile} > ${userDirectory}/myOutput
+	cat "${cornerOutput}" > ${userDirectory}/cornerOutput
+	cornerDiff=`diff ${userDirectory}/myOutput ${userDirectory}/cornerOutput`
 	if [[ ${cornerDiff} != "" ]]
 	then
-		tput setaf 1; printf "%s\n" "$2: PROBLEM $1 FAILED TO PASS CORNER-CASE IO! Would you like to see the vimdiff of output (y/n)"
+		tput setaf 1; printf "%s\n" "$userDirectory: PROBLEM $1 FAILED TO PASS CORNER-CASE IO! Would you like to see the vimdiff of output (y/n)"
 		tput sgr0
 		read answer
 		if [[ ${answer} == "y" ]]; then
-			vimdiff ${2}/myOutput ${2}/cornerOutput
+			vimdiff ${userDirectory}/myOutput ${userDirectory}/cornerOutput
 		fi
-		rm ${2}/myOutput ${2}/cornerOutput
+		rm ${userDirectory}/myOutput ${userDirectory}/cornerOutput
 		exit 1
 	else
-		tput setaf 2; printf "%s\n" "$2: PROBLEM $1 PASSED CORNER-CASE IO"
+		tput setaf 2; printf "%s\n" "$userDirectory: PROBLEM $1 PASSED CORNER-CASE IO"
 		tput sgr0
-		rm ${2}/myOutput ${2}/cornerOutput
+		rm ${userDirectory}/myOutput ${userDirectory}/cornerOutput
 	fi
 fi
 
 # Finally, test the user's solution against generated output and put the output in 
 # their directory
 # printf "%s\n" "Constructing output file using generated test cases"
-if [ ! -d "${2}/output" ]; then
-	mkdir "${2}/output"
+if [ ! -d "${userDirectory}/output" ]; then
+	mkdir "${userDirectory}/output"
 fi
 
 if [ ! -e "${generatedInput}" ]; then
@@ -157,6 +162,6 @@ if [ ! -e "${generatedInput}" ]; then
 	cp "${sampleInput}" "${generatedInput}"
 	cat "${cornerInput}" >> "${generatedInput}"
 fi
-(cat "${generatedInput}" | $RUN_COMMAND ${2} ${sourceFile}) > "${userOutput}"
+(cat "${generatedInput}" | $RUN_COMMAND ${userDirectory} ${sourceFile}) > "${userOutput}"
 # printf "%s\n" "Done."
 
