@@ -10,10 +10,15 @@ for f in ${directory}/${fileNameWithoutExt}.*; do
 		java -cp $directory $fileNameWithoutExt
 		exit 0
 
-		else if [ "${fileExtension}" == "o" ]; then
-			$f
-			exit 0
-		fi
+	else if [ "${fileExtension}" == "o" ]; then
+		$f
+		exit 0
+	fi
+
+	else if [ "${fileExtension}" == "py" ]; then
+		python $f
+		exit 0
+	fi
 
 	fi
 done
